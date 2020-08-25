@@ -1,0 +1,1 @@
+cmd_/home/jing/workspace/linux_device_drivers/hello/Module.symvers := sed 's/ko$$/o/' /home/jing/workspace/linux_device_drivers/hello/modules.order | scripts/mod/modpost     -o /home/jing/workspace/linux_device_drivers/hello/Module.symvers -e -i Module.symvers   -T -
