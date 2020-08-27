@@ -23,6 +23,11 @@ struct file_operations scull_fops = {
     .release= scull_release,
 };
 
+struct scull_qset {
+    void **data;
+    struct scull_q  *next;
+};
+
 struct scull_dev {
     struct scull_qset *data;
     int    quantum;
@@ -42,4 +47,9 @@ static void scull_setup_cdev(struct scull_dev *dev, int index)
     err = cdev_add(&dev->cdev, devno, 1);
     if (err)
         printk(KERN_NOTICE "Error %d adding scull%d", err, index);
+}
+
+int scull_trim(struct scull_dev *dev)
+{
+
 }
