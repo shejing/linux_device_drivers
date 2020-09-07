@@ -4,23 +4,16 @@
     > Mail: 2016192403@qq.com 
     > Created Time: Wed 26 Aug 2020 11:38:56 PM CST
 ***********************************************************************/
-#include<linux/fs.h>
-#include<linux/cdev.h>
-#include<linux/moduleparam.h>
-#include<linux/kernel.h>
-#include<linux/slab.h>
-#include<asm/uaccess.h>
-#include<asm/semaphore.h>
-#include<linux/errno.h>
+#include "scull.h"
 
 #define SCULL_QUANTUM 1000
 #define SCULL_SET     4000
 
 static dev_t scull_major = 0;
-static dev_t scull_major = 0;
+static dev_t scull_minor = 0;
 
 module_param(scull_major, dev_t, S_IRUGO);
-module_param(scull_minor, dev_t. S_IRUGO);
+module_param(scull_minor, dev_t, S_IRUGO);
 
 struct file_operations scull_fops = {
     .owner = THIS_MODULE,
@@ -32,20 +25,6 @@ struct file_operations scull_fops = {
     .release= scull_release,
 };
 
-struct scull_qset {
-    void **data;
-    struct scull_q  *next;
-};
-
-struct scull_dev {
-    struct scull_qset *data;
-    int    quantum;
-    int    qset;
-    unsigned long size;
-    unsigned int  access_key;
-    struct semaphore sem;
-    struct cdev   cdev;
-}
 
 static void scull_setup_cdev(struct scull_dev *dev, int index)
 {
@@ -65,7 +44,7 @@ int scull_trim(struct scull_dev *dev)
     int i;
     for (dptr = dev->data; dptr; dptr = next) {
         if (dptr->data) {
-            for (i = 0； i < qset; i++)
+            for (i = 0; i < qset; i++)
                 kfree(dptr->data[i]);
             kfree(dptr->data);
             dptr->data = NULL;
